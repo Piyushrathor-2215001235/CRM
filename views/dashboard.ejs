@@ -1,0 +1,24 @@
+<%- include('partials/header') %>
+
+<div class="container">
+    <h1>Welcome to the CRM, <%= user.name %>!</h1>
+    <p>Your role is: <strong><%= user.role %></strong></p>
+    
+    <nav>
+        <ul>
+            <% if (user.role === 'Admin') { %>
+                <li><a href="/users" class="btn">Manage Users</a></li>
+            <% } %>
+            <li><a href="/customers" class="btn">Customers</a></li>
+            <li><a href="/leads" class="btn">Leads</a></li>
+            <li><a href="/campaigns" class="btn">Campaigns</a></li>
+            <li><a href="/pipelines" class="btn">Pipelines</a></li>
+        </ul>
+    </nav>
+
+    <form action="/logout" method="POST">
+        <button type="submit">Logout</button>
+    </form>
+</div>
+
+<%- include('partials/footer') %>

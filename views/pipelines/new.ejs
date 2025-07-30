@@ -1,0 +1,34 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+    <h1>Add New Pipeline</h1>
+    <% if (typeof error !== 'undefined') { %>
+        <p class="error"><%= error %></p>
+    <% } %>
+    <form action="/pipelines" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        
+        <label for="stages">Stages (comma-separated):</label>
+        <input type="text" id="stages" name="stages">
+        
+        <label for="owner">Owner:</label>
+        <select id="owner" name="owner">
+            <% users.forEach(function(user) { %>
+                <option value="<%= user._id %>"><%= user.name %></option>
+            <% }) %>
+        </select>
+        
+        <label for="leads">Leads:</label>
+        <select id="leads" name="leads" multiple size="5">
+            <% leads.forEach(function(lead) { %>
+                <option value="<%= lead._id %>"><%= lead.name %></option>
+            <% }) %>
+        </select>
+        
+        <button type="submit">Create Pipeline</button>
+    </form>
+    <a href="/pipelines">Back to Pipelines List</a>
+</div>
+
+<%- include('../partials/footer') %> 

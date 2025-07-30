@@ -1,0 +1,34 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+    <h1>Edit Pipeline: <%= pipeline.name %></h1>
+    <% if (typeof error !== 'undefined') { %>
+        <p class="error"><%= error %></p>
+    <% } %>
+    <form action="/pipelines/<%= pipeline._id %>?_method=PUT" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="<%= pipeline.name %>" required>
+        
+        <label for="stages">Stages (comma-separated):</label>
+        <input type="text" id="stages" name="stages" value="<%= pipeline.stages.join(',') %>">
+        
+        <label for="owner">Owner:</label>
+        <select id="owner" name="owner">
+            <% users.forEach(function(user) { %>
+                <option value="<%= user._id %>" <%= String(pipeline.owner) === String(user._id) ? 'selected' : '' %>><%= user.name %></option>
+            <% }) %>
+        </select>
+        
+        <label for="leads">Leads:</label>
+        <select id="leads" name="leads" multiple size="5">
+            <% leads.forEach(function(lead) { %>
+                <option value="<%= lead._id %>" <%= pipeline.leads.includes(lead._id) ? 'selected' : '' %>><%= lead.name %></option>
+            <% }) %>
+        </select>
+        
+        <button type="submit">Update Pipeline</button>
+    </form>
+    <a href="/pipelines">Back to Pipelines List</a>
+</div>
+
+<%- include('../partials/footer') %> 

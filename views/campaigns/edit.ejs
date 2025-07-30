@@ -1,0 +1,51 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+    <h1>Edit Campaign: <%= campaign.name %></h1>
+    <% if (typeof error !== 'undefined') { %>
+        <p class="error"><%= error %></p>
+    <% } %>
+    <form action="/campaigns/<%= campaign._id %>?_method=PUT" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="<%= campaign.name %>" required>
+        
+        <label for="type">Type:</label>
+        <select id="type" name="type">
+            <option value="Email" <%= campaign.type === 'Email' ? 'selected' : '' %>>Email</option>
+            <option value="SMS" <%= campaign.type === 'SMS' ? 'selected' : '' %>>SMS</option>
+            <option value="Social" <%= campaign.type === 'Social' ? 'selected' : '' %>>Social</option>
+        </select>
+        
+        <label for="status">Status:</label>
+        <select id="status" name="status">
+            <option value="Scheduled" <%= campaign.status === 'Scheduled' ? 'selected' : '' %>>Scheduled</option>
+            <option value="Active" <%= campaign.status === 'Active' ? 'selected' : '' %>>Active</option>
+            <option value="Completed" <%= campaign.status === 'Completed' ? 'selected' : '' %>>Completed</option>
+        </select>
+        
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate" name="startDate" value="<%= campaign.startDate ? campaign.startDate.toISOString().split('T')[0] : '' %>">
+        
+        <label for="endDate">End Date:</label>
+        <input type="date" id="endDate" name="endDate" value="<%= campaign.endDate ? campaign.endDate.toISOString().split('T')[0] : '' %>">
+        
+        <label for="createdBy">Created By:</label>
+        <select id="createdBy" name="createdBy">
+            <% users.forEach(function(user) { %>
+                <option value="<%= user._id %>" <%= String(campaign.createdBy) === String(user._id) ? 'selected' : '' %>><%= user.name %></option>
+            <% }) %>
+        </select>
+        
+        <label for="targetAudience">Target Audience (Customers):</label>
+        <select id="targetAudience" name="targetAudience" multiple size="5">
+            <% customers.forEach(function(customer) { %>
+                <option value="<%= customer._id %>" <%= campaign.targetAudience.includes(customer._id) ? 'selected' : '' %>><%= customer.name %></option>
+            <% }) %>
+        </select>
+        
+        <button type="submit">Update Campaign</button>
+    </form>
+    <a href="/campaigns">Back to Campaigns List</a>
+</div>
+
+<%- include('../partials/footer') %> 
